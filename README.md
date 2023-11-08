@@ -1,3 +1,6 @@
+_This was built on a mac m1: for various machines, changes may have to be made._
+_Dockerfile was built to work on Google Cloud Run_
+
 ## Compile
 
 ```
