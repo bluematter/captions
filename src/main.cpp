@@ -140,6 +140,8 @@ int main()
             std::string json_source = j["json_url"].get<std::string>();
             nlohmann::json j_transcriptions;
             std::string output_name = j["output_name"];
+            std::string bucket_name;
+            std::string bucket_name = j.value("bucket_name", "motionbox-website");
             std::string webhook = j.value("webhook", "");
             bool highlighter = j.value("highlighter", true);
             std::string text_color = j.value("text_color", "#FFFFFF");
@@ -187,7 +189,7 @@ int main()
             std::cout << "Total operation took " << total_duration.count() << " seconds." << std::endl;
 
             // Upload to bucket
-            system(("gsutil cp \"" + output_path + "\" gs://motionbox-website/").c_str());
+            system(("gsutil cp \"" + output_path + "\" gs://"+ bucket_name + "/").c_str());
 
             cleanup(intermediate_videos, "/tmp/captions/");
 
