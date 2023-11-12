@@ -1,29 +1,36 @@
-_This was built on a mac m1: for various machines, changes may have to be made._
-_Dockerfile was built to work on Google Cloud Run_
-
 ## Compile
 
-```
-sh ./scripts/compile
+Binaries for different platforms can be built using `docker buildx` and specifying a --platform directive. Tested platforms are `linux/amd64` and `linux/arm64`.
+
+```bash
+docker buildx create --name captions-builder --use
+docker buildx inspect --bootstrap
+docker buildx build --platform linux/amd64 -t captions .
+docker run --platform=linux/amd64 -v .:/app/out captions
+
+./captions
 ```
 
-## Run Server
+## Run command
 
+```bash
+./captions \
+  --input input.mp4 \
+  --segments segments.json \
+  --output output.mp4 \
+  --font "Montserrat ExtraBold 56" \
+  --highlighter true \
+  --text_color "#f6be0e"
 ```
-./main
-```
 
-## Trigger Job
+or with hosted assets...
 
-Use PostMan to send a request to `http://localhost:8080` send a raw body that looks something like this
-
-```
-{
-    "video_filename": "https://storage.googleapis.com/ai-video-maker/clop1ciqu0007vynmu65snejx_edited.mp4",
-    "json_url": "https://storage.googleapis.com/ai-video-maker/transcription_clop1ciqu0007vynmu65snejx.json",
-    "output_name": "lol",
-    "font": "Montserrat ExtraBold 56",
-    "highlighter": false,
-    "text_color": "#f6be0e"
-}
+```bash
+./captions \
+  --input https://example.com/input.mp4 \
+  --segments https://example.com/segments.json \
+  --output output.mp4 \
+  --font "Montserrat ExtraBold 56" \
+  --highlighter true \
+  --text_color "#f6be0e"
 ```
