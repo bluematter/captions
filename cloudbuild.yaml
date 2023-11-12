@@ -1,4 +1,0 @@
-steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/disco-skyline-353218/captions', '.']
-images: ['gcr.io/disco-skyline-353218/captions']
